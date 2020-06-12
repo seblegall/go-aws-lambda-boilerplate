@@ -1,0 +1,25 @@
+service: my-service
+
+##Todo add a dynamoDB configuration boilerplate
+provider:
+  name: aws
+  runtime: go1.x
+  stage: prod
+  region: eu-central-1
+
+package:
+  individually: true
+  exclude:
+    - ./**
+
+functions:
+  getOnlineMembers:
+    handler: bin/handlers/my_lambda_func
+    package:
+      include:
+        - ./bin/handlers/my_lambda_func
+    events:
+      - http:
+          path: api/func
+          method: get
+          cors: true
